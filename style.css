@@ -1,0 +1,259 @@
+/* Add your CSS styles here */
+
+/* style.css */
+
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+.login-popup {
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.login-popup h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login-popup label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.login-popup input[type="text"],
+.login-popup input[type="tel"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.login-popup input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.login-popup button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.login-popup button:hover {
+    background-color: #0056b3;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+#popup-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+#popup {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: beige;
+    color: #333;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    font-size: 28px;
+    background-color: #FF7F50;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 24px;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    color: #FFF;
+}
+
+.cart-link {
+    color: #FFF;
+    text-decoration: none;
+}
+
+
+h1 {
+    margin: 0;
+    color: white;
+    font-size: 32px;
+}
+
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #FFF8DC;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.services {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.service {
+    width: 100%;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #FFE4B5;
+    border: 1px solid #FF7F50;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    overflow: hidden;
+    /* Add overflow property to hide any overflowing content */
+}
+
+.service h2 {
+    margin-top: 10px;
+    /* Adjust the top margin value as needed */
+    margin-bottom: 10px;
+    /* Adjust the bottom margin value as needed */
+    color: #FF7F50;
+    font-size: 24px;
+    line-height: 1.2;
+    /* Add line-height property for better vertical spacing */
+}
+
+.cta-buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.cta-buttons a {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 10px 20px;
+    background-color: #FF7F50;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.cta-buttons a:hover {
+    background-color: #FF6347;
+}
+
+.swastik {
+    display: block;
+    max-width: 100px;
+    margin: 20px auto;
+}
+
+.video-thumbnails {
+    margin-top: 20px;
+}
+
+.video-thumbnail {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.video-thumbnail img {
+    display: block;
+    width: 100%;
+    cursor: pointer;
+}
+
+.video-name {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.video-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.video-popup.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.video-popup-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 800px;
+    height: 0;
+    padding-bottom: 56.25%;
+    overflow: hidden;
+}
+
+.video-popup-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    background-color: #FF7F50;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 999;
+}

